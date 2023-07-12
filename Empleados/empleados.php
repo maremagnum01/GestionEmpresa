@@ -27,7 +27,7 @@
             }
             if($txtCorreo ==""){
                 $error['Correo'] = "Escribe un Correo";
-            }
+            }            
             if(count($error)>0){
                 $mostrarModal = true;
                 break;

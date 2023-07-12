@@ -50,8 +50,8 @@
 
                 <div class="form-group col-md-4">
                     <label for="Genero">Genero:</label>
-                    <select name="Genero" class="form-control"  id="Genero">
-                        <option><?php if(isset($_POST['Genero'])){echo $_POST['Genero'];}else{echo "Seleccionar";}?></option>
+                    <select name="Genero" class="form-control"  id="Genero" required>
+                        <!-- <option placeholder="Seleccionar"><//?php if(isset($_POST['Genero'])){echo $_POST['Genero'];}else{echo "Seleccionar";}?></option> -->
                         <option value="Femenino">Femenino</option>
                         <option value="Masculino">Masculino</option>
                         <option value="No binario">No binario</option>
