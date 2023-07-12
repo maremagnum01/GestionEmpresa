@@ -53,7 +53,7 @@
             $sql_bind->bindParam(':Foto',$nameFoto);
             $sql_bind->execute();
             
-            header("Location: ../index.php?mensaje=1");
+            header("Location: index.php?mensaje=1");
         break;
 
         case "btnModificar":
@@ -98,7 +98,7 @@
                 $sql_bind->execute();
             }
 
-            header("Location: ../index.php?mensaje=2");
+            header("Location: index.php?mensaje=2");
         break;
 
         case "btnEliminar":
@@ -121,10 +121,10 @@
             $sql_bind->bindParam(':id',$txtID);
             $sql_bind->execute();
 
-            header("Location: ../index.php?mensaje=3");
+            header("Location: index.php?mensaje=3");
         break;
         case "btnCancelar":
-            header("Location: ../index.php?mensaje=4");
+            header("Location: index.php?mensaje=4");
         break;
         case "Seleccionar":
             $btnAgregar="disabled";
