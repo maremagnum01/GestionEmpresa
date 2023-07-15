@@ -140,6 +140,38 @@
             echo $mensaje;
         } ?>
     </div>
+    <div class="container">
+        <form action="" method="POST"  class=" col-md-4">
+            <input type="text" name="buscador" id="buscador" placeholder="Buscar por nombre" class="">
+            <button type="submit" class="btn btn-primary" value="buscador" name="accion">Buscar</button>
+        </form>
+
+        <?php if(isset($resultado)){
+            echo '<p class="alert alert-primary mt-2">Se encontraron resultados de su busqueda</p>';
+             foreach($resultado as $resultados){ ?>
+        <div class="container text-center">
+                <div class="card" style="width: 10rem;">
+                    <img src="../Imagenes/<?php echo $resultados['Foto'];?>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <?php echo 'Nombre: ' . $resultados['Nombre'];?>
+                            <?php echo 'Apellido: ' . $resultados['Apellidos'];?>
+                            <?php echo 'Correo: ' . $resultados['Correo'];?>
+                        </p>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="txtID" value="<?php echo $resultados['ID']; ?>">
+                                <input type="hidden" name="txtNombre" value="<?php echo $resultados['Nombre']; ?>">
+                                <input type="hidden" name="txtApellido" value="<?php echo $resultados['Apellidos']; ?>">
+                                <input type="hidden" name="Genero" value="<?php echo $resultados['Genero']; ?>">
+                                <input type="hidden" name="txtCorreo" value="<?php echo $resultados['Correo']; ?>">
+                                <input type="hidden" name="Foto" value="<?php echo $resultados['Foto']; ?>">
+                                <input type="submit" value="Seleccionar" class="btn btn-secundary" name="accion">
+                            </form>
+                    </div>
+                </div>
+        </div>
+        <?php }} ?>
+    </div>
 <?php if($mostrarModal){ ?>
     <script>
         $('#exampleModal').modal('show');

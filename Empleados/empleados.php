@@ -138,6 +138,22 @@
          
             $Foto=$FotoSelect['Foto'];
         break;
+        case "buscador":
+            if($_POST['buscador']!=""){
+                if(isset($_POST['buscador'])){
+                    $buscar = $_POST['buscador'];
+                    $sql_bind = $pdo->prepare("SELECT * FROM empleados WHERE Nombre LIKE '%$buscar%'");
+                    $sql_bind->execute();
+                    $resultado = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
+
+                    if($resultado!=""){
+                        print_r($resultado);
+                    }else{
+                        unset($resultado);
+                    }
+                }
+            }
+        break;
     }
 
     $sql_bind = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
