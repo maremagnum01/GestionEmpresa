@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/poppers.js/1.12.9/udm/popper.min.js" > </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> </script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Gestion de empresa</title>
 </head>
 <body>
@@ -145,31 +146,34 @@
             <input type="text" name="buscador" id="buscador" placeholder="Buscar por nombre" class="">
             <button type="submit" class="btn btn-primary" value="buscador" name="accion">Buscar</button>
         </form>
-
-        <?php if(isset($resultado)){
-            echo '<p class="alert alert-primary mt-2">Se encontraron resultados de su busqueda</p>';
-             foreach($resultado as $resultados){ ?>
-        <div class="container text-center">
-                <div class="card" style="width: 10rem;">
-                    <img src="../Imagenes/<?php echo $resultados['Foto'];?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">
-                            <?php echo 'Nombre: ' . $resultados['Nombre'];?>
-                            <?php echo 'Apellido: ' . $resultados['Apellidos'];?>
-                            <?php echo 'Correo: ' . $resultados['Correo'];?>
-                        </p>
-                            <form action="" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="txtID" value="<?php echo $resultados['ID']; ?>">
-                                <input type="hidden" name="txtNombre" value="<?php echo $resultados['Nombre']; ?>">
-                                <input type="hidden" name="txtApellido" value="<?php echo $resultados['Apellidos']; ?>">
-                                <input type="hidden" name="Genero" value="<?php echo $resultados['Genero']; ?>">
-                                <input type="hidden" name="txtCorreo" value="<?php echo $resultados['Correo']; ?>">
-                                <input type="hidden" name="Foto" value="<?php echo $resultados['Foto']; ?>">
-                                <input type="submit" value="Seleccionar" class="btn btn-secundary" name="accion">
-                            </form>
+    </div>
+        <?php if(isset($resultado)){ ?>
+            <div class="container card">
+            <?php echo '<p class="alert alert-primary mt-2">Se encontraron resultados de su busqueda</p>';
+            foreach($resultado as $resultados){ ?>
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="width: 10rem;">
+                            <img src="../Imagenes/<?php echo $resultados['Foto'];?>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <?php echo '<b>Nombre: </b>' . $resultados['Nombre'];?>
+                                    <?php echo '<b>Apellido: </b>' . $resultados['Apellidos'];?>
+                                    <?php echo '<b>Correo: </b>' . $resultados['Correo'];?>
+                                </p>
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="txtID" value="<?php echo $resultados['ID']; ?>">
+                                    <input type="hidden" name="txtNombre" value="<?php echo $resultados['Nombre']; ?>">
+                                    <input type="hidden" name="txtApellido" value="<?php echo $resultados['Apellidos']; ?>">
+                                    <input type="hidden" name="Genero" value="<?php echo $resultados['Genero']; ?>">
+                                    <input type="hidden" name="txtCorreo" value="<?php echo $resultados['Correo']; ?>">
+                                    <input type="hidden" name="Foto" value="<?php echo $resultados['Foto']; ?>">
+                                    <input type="submit" value="Seleccionar" class="btn btn-secundary" name="accion">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-        </div>
         <?php }} ?>
     </div>
 <?php if($mostrarModal){ ?>
