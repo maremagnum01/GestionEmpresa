@@ -141,25 +141,26 @@
             echo $mensaje;
         } ?>
     </div>
-    <div class="container">
-        <form action="" method="POST"  class=" col-md-4">
-            <input type="text" name="buscador" id="buscador" placeholder="Buscar por nombre" class="">
-            <button type="submit" class="btn btn-primary" value="buscador" name="accion">Buscar</button>
+    <div class="container d-flex justify-content-center">
+        <form action="" method="POST" >
+            <div class="btn-group ">
+                <input type="text" name="buscador" id="buscador" placeholder="Buscar por nombre" class="form-control">
+                <button type="submit" class="btn btn-primary" value="buscador" name="accion">Buscar</button>
+            </div>
         </form>
     </div>
         <?php if(isset($resultado)){ ?>
-            <div class="container card">
-            <?php echo '<p class="alert alert-primary mt-2">Se encontraron resultados de su busqueda</p>';
+            <?php echo '<p class="alert alert-primary mt-2 container">Se encontraron resultados de su busqueda</p>';
             foreach($resultado as $resultados){ ?>
+            <div class="d-flex justify-content-center" style="gap:5px;">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-4">
                         <div class="card" style="width: 10rem;">
                             <img src="../Imagenes/<?php echo $resultados['Foto'];?>" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <p class="card-text">
-                                    <?php echo '<b>Nombre: </b>' . $resultados['Nombre'];?>
-                                    <?php echo '<b>Apellido: </b>' . $resultados['Apellidos'];?>
-                                    <?php echo '<b>Correo: </b>' . $resultados['Correo'];?>
+                                    <?php echo $resultados['Nombre'];?>
+                                    <?php echo $resultados['Apellidos'];?>
                                 </p>
                                 <form action="" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="txtID" value="<?php echo $resultados['ID']; ?>">
@@ -174,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-        <?php }} ?>
+        <?php }}?>
     </div>
 <?php if($mostrarModal){ ?>
     <script>
