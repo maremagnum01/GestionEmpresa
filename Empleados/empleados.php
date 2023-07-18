@@ -146,11 +146,7 @@
                     $sql_bind->execute();
                     $resultado = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
 
-                    if($resultado!=""){
-                        print_r($resultado);
-                    }else{
-                        unset($resultado);
-                    }
+                   
                 }
             }
         break;
