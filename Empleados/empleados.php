@@ -152,10 +152,14 @@
         break;
     }
 
-    $sql_bind = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
-    $sql_bind->execute();
-    $listaEmpleados = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
-    // print_r($listaEmpleados);
+    // $sql_bind = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
+    // $sql_bind->execute();
+    // $listaEmpleados = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+    // $sql_bind2 = $pdo->prepare("SELECT * FROM `empleados` WHERE 1 ORDER BY Nombre ASC LIMIT '%$inicio%', '%$registros%'");
+    // $sql_bind2->execute();
 
     if(isset($_GET['mensaje'])){
         if($_GET['mensaje']=='1'){$mensaje = '<p class="alert alert-success mt-2">¡Agregado a la Base de datos!</p>';}

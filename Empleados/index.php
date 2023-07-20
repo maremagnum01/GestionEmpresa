@@ -100,6 +100,27 @@
         </button>
         </form>
         <br>
+         
+        <?php
+            $TAMANO_PAGINA = 3; 
+
+            //examino la página a mostrar y el inicio del registro a mostrar 
+            $pagina = 1;
+            $inicio = 0;
+
+            if(isset($_GET["pagina"])){
+                $pagina = $_GET["pagina"];
+                $inicio = ($pagina - 1) * $TAMANO_PAGINA;
+            }
+
+            $rs = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
+            $rs->execute();
+            $num_total_registros = $rs->rowCount();
+            // print_r($num_total_registros);
+
+            $total_paginas = ceil($num_total_registros / $TAMANO_PAGINA); 
+        
+        ?>
         <div class="row">
             <table class="table table-hover table-bordered">
                 <thead class="thead-dark">
@@ -111,8 +132,13 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <?php 
-                    foreach($listaEmpleados as $empleado){ ?>
+                <?php
+                    $sql_2= "SELECT * FROM empleados LIMIT $inicio , $TAMANO_PAGINA";
+                    $pag = $pdo->prepare($sql_2);
+                    $pag->execute();
+
+                    while($fila = $pag->fetchAll(PDO::FETCH_ASSOC)){
+                    foreach($fila as $empleado){ ?>
                     <tr>
                         <td><img class="img-fluid" width="100px" src="../Imagenes/<?php echo $empleado['Foto'];?>"></td>
                         <td>
@@ -134,8 +160,19 @@
                             </form>
                         </td>
                     </tr>
-                <?php } ?>
+                <?php }}
+                ?>
             </table>
+            <?php 
+                  if ($total_paginas > 1){ 
+                    for ($i=1;$i<=$total_paginas;$i++){ 
+                       if ($pagina == $i) 
+                          echo "<a class='page-link'>".$pagina."</a>"; 
+                       else 
+                          echo "<a href='index.php?pagina=". $i ."' class='page-link'>" . $i . "</a> "; 
+                    } 
+                } 
+            ?>
         </div>
         <?php if(isset($mensaje)){
             echo $mensaje;
