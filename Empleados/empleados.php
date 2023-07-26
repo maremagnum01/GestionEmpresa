@@ -145,13 +145,14 @@
                     $sql_bind = $pdo->prepare("SELECT * FROM empleados WHERE Nombre LIKE '%$buscar%'");
                     $sql_bind->execute();
                     $resultado = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
-
-                   
+                    
+                    $rows = $sql_bind->rowCount();
                 }
             }
         break;
     }
 
+    error_reporting(0);
     // $sql_bind = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
     // $sql_bind->execute();
     // $listaEmpleados = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
@@ -166,6 +167,8 @@
         if($_GET['mensaje']=='2'){$mensaje = '<p class="alert alert-warning mt-2">¡Modificado correctamente!</p>';}
         if($_GET['mensaje']=='3'){$mensaje = '<p class="alert alert-danger mt-2">¡El registro fue eliminado!</p>';}
         if($_GET['mensaje']=='4'){$mensaje = '<p class="alert alert-primary mt-2">Se cancelo la accion</p>';}
+        if($_GET['mensaje']=='5'){$mensaje = '<p class="alert alert-primary mt-2 container">Se encontraron resultados de la busqueda</p>';}
+        if($_GET['mensaje']=='6'){$mensaje = '<p class="alert alert-warning mt-2 container">No se encontraron resultados</p>';}
     }
 ?>
 
