@@ -1,5 +1,12 @@
 <?php 
     require 'empleados.php';
+    require 'registroback.php';
+    require 'loginback.php';
+
+    $btnSeleccionar = "disabled";
+    if (isset($_SESSION['email'])){
+        $btnSeleccionar = "";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -9,6 +16,7 @@
     <link rel ="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/poppers.js/1.12.9/udm/popper.min.js" > </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> </script>
     <script src="app.js"></script>
     <!-- <link rel="stylesheet" href="style.css"> -->
@@ -16,7 +24,95 @@
 </head>
 <body>
     <div class="container">
-        <form action="" method="POST" enctype="multipart/form-data" >
+    <form action="" method="POST" id="formRegister">
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalRegistrarse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrarse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="email">Correo:</label>
+                    <input type="text" class="form-control" name="email" placeholder="Ingrese su mail" id="email" >
+                    <br>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="user">Usuario:</label>
+                    <input type="text" class="form-control"  name="user" placeholder="Ingrese su contraseña" id="user" >
+                    <br>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" class="form-control"  name="password" placeholder="Ingrese su contraseña" id="password" >
+                    <br>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="confirm_password">Contraseña:</label>
+                    <input type="password" class="form-control"  name="confirm_password" placeholder="Reingrese su contraseña" id="confirm_password" >
+                    <br>
+                </div>
+                
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="register">Registrarse</button>
+                <button class="btn btn-primary" type="reset"  id="switchR">Login</button>
+            </div>
+            </div>
+        </div>
+        </div>
+                    <!-- Button trigger modal -->
+    </form>
+    <br>
+
+    <form action="" method="POST" id="formLogin">
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="email_login">Correo:</label>
+                        <input type="email_login" class="form-control"  name="email_login" placeholder="Ingrese su correo" id="email_login" >
+                        <br>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="password_login">Contraseña:</label>
+                        <input type="password" class="form-control"  name="password_login" placeholder="Ingrese su contraseña" id="password_login" >
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="login">Login</button>
+                <button class="btn btn-primary" type="reset"  id="switchL">Registrarse</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </form>
+    <br>
+
+    <form action="" method="POST" enctype="multipart/form-data" >
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -96,11 +192,19 @@
         </div>
                     <!-- Button trigger modal -->
         <br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Agregar un registro +
-        </button>
-        </form>
-        <br>
+        <?php if(isset($_SESSION['email'])) { ?>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Agregar un registro +
+            </button>            
+            <a href="logout.php" class="btn btn-danger">Logout</a>
+            <p>Usuario conectado: <?php echo $_SESSION['email'] ?></p>
+        <?php }else{ ?>
+            <button type="button" class="btn btn-primary" data-toggle="modal" id="ModalLogin">
+                Identificarse
+            </button>
+        <?php } ?>
+    </form>
+    <br>
          
         <?php
             $TAMANO_PAGINA = 3; 
@@ -157,7 +261,7 @@
                                 <input type="hidden" name="txtCorreo" value="<?php echo $empleado['Correo']; ?>">
                                 <input type="hidden" name="Foto" value="<?php echo $empleado['Foto']; ?>">
 
-                                <input type="submit" value="Seleccionar" class="btn btn-secundary" name="accion">
+                                <input type="submit" value="Seleccionar" <?php echo $btnSeleccionar; ?> class="btn btn-secundary" name="accion">
                             </form>
                         </td>
                     </tr>
@@ -205,7 +309,7 @@
                                         <input type="hidden" name="Genero" value="<?php echo $resultados['Genero']; ?>">
                                         <input type="hidden" name="txtCorreo" value="<?php echo $resultados['Correo']; ?>">
                                         <input type="hidden" name="Foto" value="<?php echo $resultados['Foto']; ?>">
-                                        <input type="submit" value="Seleccionar" class="btn btn-secundary" name="accion">
+                                        <input type="submit" value="Seleccionar" <?php echo $btnSeleccionar; ?> class="btn btn-secundary" name="accion">
                                     </form>
                                 </div>
                             </div>
@@ -217,10 +321,77 @@
             echo '<p class="alert alert-warning mt-2">No se encontraron resultados</p>';
         } ?>
     </div>
-    
+<script>
+    $('#ModalRegister').on('click', function(){
+        $('#exampleModalRegistrarse').modal('show');
+    });
+
+    $(function(){
+        $('#formRegister').validate({
+            rules: {
+                user: {
+                    required: true,
+                    minlength: 5
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+            }
+        });
+    });
+
+    $('#ModalLogin').on('click', function(){
+        $('#exampleModalLogin').modal('show');
+    });
+
+    $(function(){
+        $('#formLogin').validate({
+            rules: {
+                email_login: {
+                    required: true,
+                    minlength: 5,
+                    email: true
+                },
+                password_login: {
+                    required: true,
+                    minlength: 5
+                }
+            }
+        });
+    });
+
+    $(function(){
+        $('#switchR').on('click',function(){
+                $('#exampleModalRegistrarse').modal('hide');
+                $('#exampleModalLogin').modal('show');
+        });
+    });
+
+    $(function(){
+        $('#switchL').on('click',function(){
+                $('#exampleModalLogin').modal('hide');
+                $('#exampleModalRegistrarse').modal('show');
+        });
+    });
+</script>
 <?php if($mostrarModal){ ?>
     <script>
         $('#exampleModal').modal('show');
+    </script>
+<?php } ?>
+<?php if($mostrarModalRegister){?>
+    <script>
+        $('#exampleModalRegistrarse').modal('show');
+    </script>
+<?php } ?>
+<?php if($mostrarModalLogin){ ?>
+    <script>
+        $('#exampleModalLogin').modal('show');
     </script>
 <?php } ?>
 </body>
