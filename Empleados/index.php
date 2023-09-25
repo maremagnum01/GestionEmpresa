@@ -3,10 +3,7 @@
     require 'registroback.php';
     require 'loginback.php';
 
-    $btnSeleccionar = "disabled";
-    if (isset($_SESSION['email'])){
-        $btnSeleccionar = "";
-    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel ="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/poppers.js/1.12.9/udm/popper.min.js" > </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> </script>
-    <script src="app.js"></script>
     <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Gestion de empresa</title>
 </head>
@@ -260,8 +257,11 @@
                                 <input type="hidden" name="Genero" value="<?php echo $empleado['Genero']; ?>">
                                 <input type="hidden" name="txtCorreo" value="<?php echo $empleado['Correo']; ?>">
                                 <input type="hidden" name="Foto" value="<?php echo $empleado['Foto']; ?>">
-
-                                <input type="submit" value="Seleccionar" <?php echo $btnSeleccionar; ?> class="btn btn-secundary" name="accion">
+                                <?php if(isset($_SESSION['email'])){?>
+                                    <input type="submit" value="Seleccionar" <?php echo $btnSeleccionar; ?> class="btn btn-secundary" name="accion">
+                                <?php }else{ ?>
+                                    <p>Identificarse</p>
+                                <?php } ?>
                             </form>
                         </td>
                     </tr>
@@ -282,103 +282,19 @@
         <?php if(isset($mensaje)){
             echo $mensaje;
         } ?>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" style="margin-bottom: 10px;">
             <form action="" method="POST" >
                 <div class="btn-group ">
-                    <input type="text" name="buscador" id="buscador" placeholder="Buscar por nombre" class="form-control">
-                    <button type="submit" class="btn btn-primary" value="buscador" name="accion" id="search">Buscar</button>
+                    <input type="text" name="buscador" id="buscador" placeholder="Buscar empleado" class="form-control">
                 </div>
             </form>
         </div>
-        <?php if($rows >= 1){
-            echo '<p class="alert alert-primary mt-2">Se encontraron resultados de la busqueda</p>'?>
-                <?php foreach($resultado as $resultados){ ?>
-                    <div class="row">
-                        <div class="col-sm d-flex justify-content-around">
-                            <div class="card" style="width: 10rem;">
-                                <img src="../Imagenes/<?php echo $resultados['Foto'];?>" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <?php echo $resultados['Nombre'];?>
-                                        <?php echo $resultados['Apellidos'];?>
-                                    </p>
-                                    <form action="" method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="txtID" value="<?php echo $resultados['ID']; ?>">
-                                        <input type="hidden" name="txtNombre" value="<?php echo $resultados['Nombre']; ?>">
-                                        <input type="hidden" name="txtApellido" value="<?php echo $resultados['Apellidos']; ?>">
-                                        <input type="hidden" name="Genero" value="<?php echo $resultados['Genero']; ?>">
-                                        <input type="hidden" name="txtCorreo" value="<?php echo $resultados['Correo']; ?>">
-                                        <input type="hidden" name="Foto" value="<?php echo $resultados['Foto']; ?>">
-                                        <input type="submit" value="Seleccionar" <?php echo $btnSeleccionar; ?> class="btn btn-secundary" name="accion">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?> 
-            </div> 
-        <?php } elseif ($_POST['buscador'] != "" ) {
-            echo '<p class="alert alert-warning mt-2">No se encontraron resultados</p>';
-        } ?>
+        
+        <div>
+            <div class='row' id='tabla_resultados'></div>          
+        </div>
     </div>
-<script>
-    $('#ModalRegister').on('click', function(){
-        $('#exampleModalRegistrarse').modal('show');
-    });
-
-    $(function(){
-        $('#formRegister').validate({
-            rules: {
-                user: {
-                    required: true,
-                    minlength: 5
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                password: {
-                    required: true,
-                    minlength: 5
-                }
-            }
-        });
-    });
-
-    $('#ModalLogin').on('click', function(){
-        $('#exampleModalLogin').modal('show');
-    });
-
-    $(function(){
-        $('#formLogin').validate({
-            rules: {
-                email_login: {
-                    required: true,
-                    minlength: 5,
-                    email: true
-                },
-                password_login: {
-                    required: true,
-                    minlength: 5
-                }
-            }
-        });
-    });
-
-    $(function(){
-        $('#switchR').on('click',function(){
-                $('#exampleModalRegistrarse').modal('hide');
-                $('#exampleModalLogin').modal('show');
-        });
-    });
-
-    $(function(){
-        $('#switchL').on('click',function(){
-                $('#exampleModalLogin').modal('hide');
-                $('#exampleModalRegistrarse').modal('show');
-        });
-    });
-</script>
+<script src="jquery.js"></script>
 <?php if($mostrarModal){ ?>
     <script>
         $('#exampleModal').modal('show');

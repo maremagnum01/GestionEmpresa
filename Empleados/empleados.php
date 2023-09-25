@@ -1,6 +1,7 @@
 <?php
     include ("../conexion/conexion.php");
 
+    session_start();
     $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
     $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
     $txtApellido=(isset($_POST['txtApellido']))?$_POST['txtApellido']:"";
@@ -9,6 +10,10 @@
     $Foto=(isset($_FILES['Foto']["name"]))?$_FILES['Foto']["name"]:"imagen.jpg";
     $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
+    $btnSeleccionar = "disabled";
+    if (isset($_SESSION['email'])){
+        $btnSeleccionar = "";
+    }
     $btnAgregar="";
     $btnModificar=$btnEliminar=$btnCancelar="disabled";
     $mostrarModal=false;
@@ -123,9 +128,11 @@
 
             header("Location: index.php?mensaje=3");
         break;
+
         case "btnCancelar":
             header("Location: index.php?mensaje=4");
         break;
+
         case "Seleccionar":
             $btnAgregar="disabled";
             $btnModificar=$btnEliminar=$btnCancelar="";    
@@ -138,29 +145,55 @@
          
             $Foto=$FotoSelect['Foto'];
         break;
+
         case "buscador":
-            if($_POST['buscador']!=""){
-                if(isset($_POST['buscador'])){
-                    $buscar = $_POST['buscador'];
-                    $sql_bind = $pdo->prepare("SELECT * FROM empleados WHERE Nombre LIKE '%$buscar%'");
-                    $sql_bind->execute();
-                    $resultado = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    $rows = $sql_bind->rowCount();
-                }
-            }
-        break;
+        break;        
     }
 
+    //Script para Ajax
+    $resultados_empleados ="";
+            if(isset($_POST['empleados'])){
+                $buscar = $_POST['empleados'];
+                $sql_bind = $pdo->prepare("SELECT * FROM empleados WHERE Nombre LIKE '%$buscar%' OR Apellidos LIKE '%$buscar%'");
+                $sql_bind->execute();
+                $resultado = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
+                    
+                $rows = $sql_bind->rowCount();
+                
+                if($rows >= 1){
+                        foreach($resultado as $resultados){
+                            $resultados_empleados .=
+                                "<div class='col-sm d-flex justify-content-around'>
+                                    <div class='card' style='width: 10rem;'>
+                                        <img src='../Imagenes/". $resultados['Foto']."' style='width: 100%; height: 100%; object-fit: contain;' class='card-img-top' alt='...'>
+                                        <div class='card-body'>
+                                            <p class='card-text'>
+                                                ".$resultados['Nombre']."
+                                                ".$resultados['Apellidos']."
+                                            </p>
+                                            <form action='' method='POST' enctype='multipart/form-data'>
+                                                <input type='hidden' name='txtID' value='".$resultados['ID']."'>
+                                                <input type='hidden' name='txtNombre' value='".$resultados['Nombre']."'>
+                                                <input type='hidden' name='txtApellido' value='".$resultados['Apellidos']."'>
+                                                <input type='hidden' name='Genero' value='".$resultados['Genero']."'>
+                                                <input type='hidden' name='txtCorreo' value='".$resultados['Correo']."'>
+                                                <input type='hidden' name='Foto' value='".$resultados['Foto']."'>
+        
+                                                <input type='submit' ".$btnSeleccionar." value='Seleccionar' class='btn btn-secundary' name='accion' >
+                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>";
+                        }
+                } elseif ($_POST['empleados'] != "" ) {
+                    echo '<p class="alert alert-warning mt-2 col-12">No se encontraron resultados</p>';
+                }
+            }
+            echo $resultados_empleados;
+
+
     error_reporting(0);
-    // $sql_bind = $pdo->prepare("SELECT * FROM `empleados` WHERE 1");
-    // $sql_bind->execute();
-    // $listaEmpleados = $sql_bind->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-    // $sql_bind2 = $pdo->prepare("SELECT * FROM `empleados` WHERE 1 ORDER BY Nombre ASC LIMIT '%$inicio%', '%$registros%'");
-    // $sql_bind2->execute();
 
     if(isset($_GET['mensaje'])){
         if($_GET['mensaje']=='1'){$mensaje = '<p class="alert alert-success mt-2">¡Agregado a la Base de datos!</p>';}
