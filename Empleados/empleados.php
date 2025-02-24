@@ -1,5 +1,5 @@
 <?php
-    include ("../conexion/conexion.php");
+    include ("conexion/conexion.php");
 
     session_start();
     $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
@@ -52,7 +52,7 @@
             $tmpFoto = $_FILES["Foto"]["tmp_name"];
 
             if($tmpFoto!=""){
-                move_uploaded_file($tmpFoto,"../Imagenes/".$nameFoto);
+                move_uploaded_file($tmpFoto,"Imagenes/".$nameFoto);
             }
 
             $sql_bind->bindParam(':Foto',$nameFoto);
@@ -81,7 +81,7 @@
             $tmpFoto = $_FILES["Foto"]["tmp_name"];
 
             if($tmpFoto!=""){
-                move_uploaded_file($tmpFoto,"../Imagenes/".$nameFoto);
+                move_uploaded_file($tmpFoto,"Imagenes/".$nameFoto);
 
                 $sql_bind=$pdo->prepare("SELECT Foto FROM empleados WHERE id=:id");
                 $sql_bind->bindParam(':id',$txtID);
@@ -90,9 +90,9 @@
                 // print_r($FotoSelect);
 
                 if(isset($FotoSelect['Foto'])){
-                    if(file_exists("../Imagenes/".$FotoSelect['Foto'])){
+                    if(file_exists("Imagenes/".$FotoSelect['Foto'])){
                         if($FotoSelect['Foto']!="imagen.jpg"){
-                            unlink("../Imagenes/".$FotoSelect['Foto']);
+                            unlink("Imagenes/".$FotoSelect['Foto']);
                         }
                     }
                 }
@@ -115,9 +115,9 @@
             // print_r($FotoSelect);
 
             if(isset($FotoSelect['Foto'])&&($FotoSelect['Foto']!="imagen.jpg")){
-                if(file_exists("../Imagenes/".$FotoSelect['Foto'])){
+                if(file_exists("Imagenes/".$FotoSelect['Foto'])){
                     if($FotoSelect['Foto']!="imagen.jpg"){
-                        unlink("../Imagenes/".$FotoSelect['Foto']);
+                        unlink("Imagenes/".$FotoSelect['Foto']);
                     }
                 }
             }
@@ -165,7 +165,7 @@
                             $resultados_empleados .=
                                 "<div class='col-sm d-flex justify-content-around'>
                                     <div class='card' style='width: 10rem;'>
-                                        <img src='../Imagenes/". $resultados['Foto']."' style='width: 100%; height: 100%; object-fit: contain;' class='card-img-top' alt='...'>
+                                        <img src='Imagenes/". $resultados['Foto']."' style='width: 100%; height: 100%; object-fit: contain;' class='card-img-top' alt='...'>
                                         <div class='card-body'>
                                             <p class='card-text'>
                                                 ".$resultados['Nombre']."

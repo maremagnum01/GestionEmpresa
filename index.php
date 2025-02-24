@@ -1,10 +1,14 @@
 <?php 
-    require 'empleados.php';
-    require 'registroback.php';
-    require 'loginback.php';
+    // require "empleados.php";
+    // require "loginback.php";
+    // require "registroback.php";
 
-    
+    require "Empleados/empleados.php";
+    require "Empleados/loginback.php";
+    require "Empleados/registroback.php";
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,6 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> </script>
     <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Gestion de empresa</title>
+    <link rel="icon" href="icono.svg">
 </head>
 <body>
     <div class="container">
@@ -168,7 +173,7 @@
 
                     <?php if($Foto!=""){ ?>
                         <br>
-                        <img class="img-thumbnail rounded mx-auto d-block" src="../Imagenes/<?php echo $Foto; ?>" width="100px">
+                        <img class="img-thumbnail rounded mx-auto d-block" src="Imagenes/<?php echo $Foto; ?>" width="100px">
                         <br>
                     <?php }?>
                     <br>
@@ -193,7 +198,7 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Agregar un registro +
             </button>            
-            <a href="logout.php" class="btn btn-danger">Logout</a>
+            <a href="Empleados/logout.php" class="btn btn-danger">Logout</a>
             <p>Usuario conectado: <?php echo $_SESSION['email'] ?></p>
         <?php }else{ ?>
             <button type="button" class="btn btn-primary" data-toggle="modal" id="ModalLogin">
@@ -242,7 +247,7 @@
                     while($fila = $pag->fetchAll(PDO::FETCH_ASSOC)){
                     foreach($fila as $empleado){ ?>
                     <tr>
-                        <td><img class="img-fluid" width="100px" src="../Imagenes/<?php echo $empleado['Foto'];?>"></td>
+                        <td><img class="img-fluid" width="100px" src="Imagenes/<?php echo $empleado['Foto'];?>"></td>
                         <td>
                             <?php echo $empleado['Nombre']; ?> 
                             <?php echo $empleado['Apellidos']; ?>
