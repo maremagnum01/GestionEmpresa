@@ -1,5 +1,5 @@
 <?php
-    require "conexion/conexion.php";
+    require "conexion/conexion_db_host.php";
 
     session_start();
     $mostrarModalLogin= false;

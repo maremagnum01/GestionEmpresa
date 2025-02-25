@@ -1,5 +1,5 @@
 <?php
-    include ("conexion/conexion.php");
+    include ("conexion/conexion_db_host.php");
 
     session_start();
     $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
