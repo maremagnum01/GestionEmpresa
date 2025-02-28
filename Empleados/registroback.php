@@ -1,5 +1,6 @@
 <?php 
-    include('conexion/conexion_db_host.php');
+    include('conexion_db_host.php');
+    // include ("conexion.php");
 
     session_start();
     $mostrarModalRegister = false;

@@ -62,7 +62,7 @@ $(obtener_resultados());
 
 function obtener_resultados(empleados){
     $.ajax({
-        url:'empleados.php',
+        url:'Empleados/empleados.php',
         type: 'POST',
         dataType: 'html',
         data: {empleados : empleados}

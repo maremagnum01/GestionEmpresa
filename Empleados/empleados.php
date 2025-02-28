@@ -1,5 +1,6 @@
 <?php
-    include ("conexion/conexion_db_host.php");
+    include('conexion_db_host.php');
+    // include ('conexion.php');
 
     session_start();
     $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
@@ -146,8 +147,8 @@
             $Foto=$FotoSelect['Foto'];
         break;
 
-        case "buscador":
-        break;        
+        // case "buscador":
+        // break;
     }
 
     //Script para Ajax
